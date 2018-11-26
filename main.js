@@ -41,14 +41,14 @@ function getRandomOddNumber(length) {
   return number;
 }
 
-function euclidean(firstNumber, secondNumber) {
-  return (!secondNumber) ? firstNumber : euclidean(secondNumber, firstNumber % secondNumber);
+function euclidean(a, b) {
+  return (!b) ? a : euclidean(b, a % b);
 }
 
-function extendedEuclidean(firstNumber, secondNumber) {
-  let r = new Array(firstNumber, secondNumber), x = new Array(1n, 0n), y = new Array(0n, 1n), q;
+function extendedEuclidean(a, b) {
+  let r = new Array(a, b), x = new Array(1n, 0n), y = new Array(0n, 1n), q;
   while(r[1] != 0n) {
-    q = BigInt(r[0] / r[1]);
+    q = r[0] / r[1];
     r[2] = r[1];
     x[2] = x[1];
     y[2] = y[1];
@@ -63,28 +63,29 @@ function extendedEuclidean(firstNumber, secondNumber) {
 }
 
 function modulo(base, power, mod) {
-  let x = 1n, y = base;
-  while(power > 0n) {
-    if((power & 1n) == 1n) {
+  let x = 1n, y = base, pow = power;
+  while(pow > 0n) {
+    if((pow & 1n) == 1n) {
       x = (x * y) % mod;
     }
     y = (y * y) % mod;
-    power >>= 1n;
+    pow >>= 1n;
   }
   return x;
 }
 
-function modulo_2(base, power, mod) {
-  let x = 0n, y = base % mod;
-  while(power > 0n) {
-    if((power & 1n) == 1n) {
+function mulMod(base, multiplier, mod) {
+  let x = 0n, y = base % mod, multi = multiplier;
+  while(multi > 0n) {
+    if((multi & 1n) == 1n) {
       x = (x + y) % mod;
     }
     y = (y * 2n) % mod;
-    power >>= 1n;
+    multi >>= 1n;
   }
   return x;
 }
+
 
 function millerRabin(p) {
   let i, s, a, temp, mod;
@@ -94,11 +95,13 @@ function millerRabin(p) {
   }
 
   for(i = 0; i < 20; i++) {
-    a = getRandomNumber(2) % (p - 1n) + 1n;
+    do {
+      a = getRandomNumber(2) % (p - 1n) + 1n;
+    } while((euclidean(a, p) != 1));
     temp = s;
     mod = modulo(a, temp, p);
     while(temp != p - 1n && mod != 1n && mod != p - 1n) {
-      mod = modulo_2(mod, mod, p);
+      mod = mulMod(mod, mod, p);
       temp <<= 1n;
     }
     if(mod != p - 1n && (temp & 1n) == 0n) {
@@ -109,18 +112,18 @@ function millerRabin(p) {
 }
 
 function encrypt() {
-  var c = modulo(BigInt(document.getElementById("message").value), e, n)
+  var c = modulo(BigInt(document.getElementById("message").value), e, n);
   document.getElementById("c").innerHTML = c;
   var m = modulo(c, d, n);
   document.getElementById("m").innerHTML = m;
 }
 
 do {
-  var p = getRandomOddNumber(100 - getRandomLength());
+  var p = getRandomOddNumber(3);
 } while(!millerRabin(p));
 
 do {
-  var q = getRandomOddNumber(100 - getRandomLength());
+  var q = getRandomOddNumber(3);
 } while(!millerRabin(q));
 
 if(p < q) {
