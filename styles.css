@@ -1,20 +1,25 @@
 body {
-  background-color: beige;
+  background-color: #DFDCE3;
   word-break:break-all;
 }
 
+button {
+  background-color: #F78733;
+}
+
 .n, .phi, .e, .d {
-  color: red;
+  color: #FC4A1A;
 }
 
 .navbar {
   height: 40px;
-  color: aliceblue;
+  background-color: #4C4CFF;
+  color: #DFDCE3;
   font-size: 20px;
 }
 
-#p, #q, #c, #m {
-  color: red;
+#p, #q, #c, #mVer1, #mVer2 {
+  color: #FC4A1A;
 }
 
 h6 {

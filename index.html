@@ -8,7 +8,7 @@
   <title>RSA</title>
 </head>
 <body>
-  <nav class="navbar navbar-dark bg-primary">
+  <nav class="navbar">
     <b>An RSA implementation in action with BigInts, crypto randoms</b>
   </nav>
   <h5>On page load I already generated two prime number <i>p, q</i></h5>
@@ -32,15 +32,18 @@
   <div class="input-group mb-3">
     <h6 class="message-input">Message: </h6><input type="number" class="form-control" id="message">
     <div class="input-group-append">
-      <button class="btn btn-warning" type="button" onclick="encrypt()">Encrypt</button>
+      <button id="messageBtn" class="btn" type="button" onclick="encrypt()">Encrypt</button>
     </div>
   </div>
 
   <h5>Encryption with our Public Key <i>Enc<sub>PK</sub>(M) = M<sup>e</sup> (mod n)</i></h5>
   <h6>c &equiv; <span id="c"></span> (mod <span class="n"></span>)</h6>
 
-  <h5>Decryption with our Secret Key <i>Dec<sub>SK</sub>(C) = C<sup>d</sup> (mod n)</i></h5>
-  <h6>Message: <span id="m"></span></h6>
+  <h5>Decryption with Secret Key <i>Dec<sub>SK</sub>(C) = C<sup>d</sup> (mod n)</i></h5>
+  <h6>Message: <span id="mVer1"></span></h6>
+
+  <h5>Decryption with Private Key based on CRT</h5>
+  <h6>Message: <span id="mVer2"></span></h6>
 
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
